@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../entities/User';
+import 'dotenv/config';
 
 class UserController {
-  async create(req: Request, res: Response): Promise<Response> {
+  async create(req: Request, res: Response): Promise<void | Response> {
     const userData = req.body;
-    console.log(userData);
 
     if (!userData.name || !userData.username || !userData.password) {
       return res.status(400).send('Fill required fields');
@@ -19,9 +20,31 @@ class UserController {
       userData.pets = [];
     }
 
-    const user = await User.create(userData);
+    const userAlreadyExists = await User.findOne({ username: userData.username });
 
-    return res.status(201).json(user);
+    if (userAlreadyExists) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+
+    const { id } = await User.create({
+      name: userData.name,
+      username: userData.username,
+      password: userData.password,
+    });
+
+    const token = jwt.sign({ id }, 'jvns', { expiresIn: '1d' });
+
+    return res.status(201).json({ token });
+  }
+
+  async index(req: Request, res: Response) {
+    const userID = req.body.id;
+
+    const user = await User.findById(userID);
+
+    res.send(`
+    Welcome ${user.name}
+    `);
   }
 }
 
