@@ -1,9 +1,11 @@
 import express from 'express';
+import { router } from './routes';
+import connectToDatabase from './database';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.json({ hello: 'world' });
-})
+connectToDatabase();
 
-app.listen(3333, () => console.log('Server listening on port 3333'));
+app.use(router);
+
+export { app }
