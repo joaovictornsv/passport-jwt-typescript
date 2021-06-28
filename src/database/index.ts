@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import { DATABASE_URL } from '~/constants/env';
 
 function connectToDatabase() {
-  mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/passport', { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   mongoose.set('useFindAndModify', true);
 
   const db = mongoose.connection;

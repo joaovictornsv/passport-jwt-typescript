@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '~/entities/User';
 import 'dotenv/config';
+import { SECRET_KEY } from '~/constants/env';
 
 class UserController {
   async create(req: Request, res: Response): Promise<void | Response> {
@@ -32,7 +33,7 @@ class UserController {
       password: userData.password,
     });
 
-    const token = jwt.sign({ id }, 'jvns', { expiresIn: '1d' });
+    const token = jwt.sign({ id }, SECRET_KEY, { expiresIn: '1d' });
 
     return res.status(201).json({ token });
   }
