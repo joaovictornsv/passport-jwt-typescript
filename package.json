@@ -7,7 +7,7 @@
     "dev": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn app/src/server.ts",
     "refresh": "rm -rf node_modules && yarn install",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register app/tests/**/*.spec.ts",
-    "test:coverage": "nyc --reporter=text --reporter=lcov yarn test"
+    "test:coverage": "nyc yarn test"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
