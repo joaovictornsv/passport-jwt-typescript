@@ -1,4 +1,4 @@
-export const userMock = {
+export const userReturnedMock = {
   _id: 'id-mock',
   name: 'name-mock',
   username: 'username-mock',

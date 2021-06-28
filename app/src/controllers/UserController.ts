@@ -10,20 +10,16 @@ interface IIndexUserRequest extends Request{
 }
 
 class UserController {
-  async create(req: Request, res: Response): Promise<void | Response> {
+  async create(req: Request, res: Response): Promise<Response> {
     const userData = req.body;
 
     if (!userData.name || !userData.username || !userData.password) {
-      return res.status(400).send('Fill required fields');
+      res.status(400).json({ error: 'Fill required fields' });
     }
 
     const passwordHash = await bcrypt.hash(userData.password, 8);
 
     userData.password = passwordHash;
-
-    if (!userData.pets) {
-      userData.pets = [];
-    }
 
     const userAlreadyExists = await User.findOne({ username: userData.username });
 
