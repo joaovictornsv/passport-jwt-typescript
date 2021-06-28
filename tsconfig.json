@@ -4,6 +4,8 @@
     "module": "commonjs",
     "lib": ["es6"],                                   
     "allowJs": true,
+    "typeRoots": ["./app/src/types"],
+    "types": ["mocha", "express"],
     "removeComments": true,
     "strict": false,
     "baseUrl": ".",
@@ -14,5 +16,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["app/src/**/*"]
+  "include": ["app/src/**/*"],
+  "exclude": [
+    "./app/tests/",
+    "./node_modules/",
+    "./dist/"
+  ],
 }

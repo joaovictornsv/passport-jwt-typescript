@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '~/entities/User';
+import User, { IUser } from '~/entities/User';
 import 'dotenv/config';
 import { SECRET_KEY } from '~/constants/env';
+
+interface IIndexUserRequest extends Request{
+  user?: IUser;
+}
 
 class UserController {
   async create(req: Request, res: Response): Promise<void | Response> {
@@ -38,7 +42,7 @@ class UserController {
     return res.status(201).json({ token });
   }
 
-  async index(req: Request, res: Response) {
+  async index(req: IIndexUserRequest, res: Response) {
     const { user } = req;
     res.send(`
     Welcome ${user.name}
