@@ -1,13 +1,16 @@
 import { Router } from 'express';
+import passport from 'passport';
 import { UserController } from '../controllers/UserController';
-import { generateJWT, verifyJWT } from '../middlewares/AuthMiddleware';
+import { generateJWT } from '../middlewares/AuthMiddleware';
 
 const router = Router();
 
 const userController = new UserController();
 
 // Home
-router.get('/', verifyJWT, userController.index);
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  userController.index);
 
 // Register
 

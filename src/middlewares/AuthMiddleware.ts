@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from '~/entities/User';
 
+const SECRET = process.env.SECRET_KEY || 'jvns';
+
+// Custom JWT authentication middleware
 async function verifyJWT(req: Request, res: Response, next: NextFunction) {
   if (req.headers) {
     const token = req.headers.authorization;
@@ -11,7 +14,7 @@ async function verifyJWT(req: Request, res: Response, next: NextFunction) {
       return res.status(400).json({ error: 'No token provided' });
     }
 
-    jwt.verify(token, 'jvns', async (err: any, decoded: any) => {
+    jwt.verify(token, SECRET, async (err: any, decoded: any) => {
       if (err) { return res.status(400).json(err); }
 
       req.body.id = decoded.id;
@@ -53,7 +56,7 @@ async function generateJWT(req: Request, res: Response) {
 
     const { id } = user;
 
-    const newToken = jwt.sign({ id }, 'jvns', { expiresIn: '1d' });
+    const newToken = jwt.sign({ id }, SECRET, { expiresIn: '1d' });
 
     return res.status(201).json({ token: newToken });
   }

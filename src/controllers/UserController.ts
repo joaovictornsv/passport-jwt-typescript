@@ -38,10 +38,7 @@ class UserController {
   }
 
   async index(req: Request, res: Response) {
-    const userID = req.body.id;
-
-    const user = await User.findById(userID);
-
+    const { user } = req;
     res.send(`
     Welcome ${user.name}
     `);
