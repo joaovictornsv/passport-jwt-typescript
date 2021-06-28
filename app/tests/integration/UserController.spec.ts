@@ -5,11 +5,11 @@ import User from '../../src/entities/User';
 import { userReturnedMock } from '../mocks/userMock';
 import { responseMock } from '../mocks/responseMock';
 import { requestMock } from '../mocks/requestMock';
-import { UserController } from '../../src/controllers/UserController';
+import { IIndexUserRequest, UserController } from '../../src/controllers/UserController';
 
 const userController = new UserController();
 
-describe('User Controller', () => {
+describe('User Controller create', () => {
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
@@ -59,5 +59,45 @@ describe('User Controller', () => {
     assert.equal(statusSpy.calledWith(400), true);
 
     UserMock.verify();
+  });
+
+  it('should not able create a user if required fields are missing', async () => {
+    const statusSpy = sandbox.spy(responseMock, 'status');
+
+    requestMock.body = {
+      name: 'Mock name',
+    };
+
+    const response = await userController.create(requestMock, responseMock);
+    expect(response).to.be.have.property('error');
+    expect(response).to.eql({ error: 'Fill required fields' });
+    assert.equal(statusSpy.calledWith(400), true);
+  });
+});
+
+describe('User Controller index', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('should index an user', async () => {
+    const sendSpy = sandbox.spy(responseMock, 'send');
+
+    const userIndexRequestMock = {
+      user: {
+        name: 'Mock name',
+      },
+    } as IIndexUserRequest;
+
+    const response = await userController.index(userIndexRequestMock, responseMock);
+
+    expect(response).to.deep.equal(`Welcome ${userIndexRequestMock.user.name}`);
+    assert.equal(sendSpy.calledWith(`Welcome ${userIndexRequestMock.user.name}`), true);
   });
 });

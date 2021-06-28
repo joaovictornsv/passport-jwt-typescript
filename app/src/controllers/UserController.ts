@@ -5,7 +5,7 @@ import User, { IUser } from '~/entities/User';
 import 'dotenv/config';
 import { SECRET_KEY } from '~/constants/env';
 
-interface IIndexUserRequest extends Request{
+export interface IIndexUserRequest extends Request{
   user?: IUser;
 }
 
@@ -14,7 +14,7 @@ class UserController {
     const userData = req.body;
 
     if (!userData.name || !userData.username || !userData.password) {
-      res.status(400).json({ error: 'Fill required fields' });
+      return res.status(400).json({ error: 'Fill required fields' });
     }
 
     const passwordHash = await bcrypt.hash(userData.password, 8);
@@ -40,9 +40,8 @@ class UserController {
 
   async index(req: IIndexUserRequest, res: Response) {
     const { user } = req;
-    res.send(`
-    Welcome ${user.name}
-    `);
+
+    return res.send(`Welcome ${user.name}`);
   }
 }
 
