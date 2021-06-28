@@ -13,8 +13,10 @@ async function verifyJWT(req: Request, res: Response, next: NextFunction) {
       return res.status(400).json({ error: 'No token provided' });
     }
 
-    jwt.verify(token, SECRET_KEY, async (err: any, decoded: any) => {
-      if (err) { return res.status(400).json(err); }
+    return jwt.verify(token, SECRET_KEY, async (err: any, decoded: any) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      }
 
       req.body.id = decoded.id;
 
@@ -26,9 +28,8 @@ async function verifyJWT(req: Request, res: Response, next: NextFunction) {
 
       next();
     });
-  } else {
-    return res.status(400).json({ error: 'No headers provided' });
   }
+  return res.status(400).json({ error: 'No headers provided' });
 }
 
 async function generateJWT(req: Request, res: Response) {
@@ -57,8 +58,9 @@ async function generateJWT(req: Request, res: Response) {
 
     const newToken = jwt.sign({ id }, SECRET_KEY, { expiresIn: '1d' });
 
-    return res.status(201).json({ token: newToken });
+    return res.status(200).json(newToken);
   }
+  return res.status(400).json({ error: 'No headers provided' });
 }
 
 export { verifyJWT, generateJWT };

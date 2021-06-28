@@ -1,8 +1,9 @@
 import { NativeError } from 'mongoose';
+import { PassportStatic } from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import User, { IUser } from '~/entities/User';
 
-export default (passport) => {
+export default (passport: PassportStatic) => {
   passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.SECRET_KEY || 'jvns',
@@ -10,7 +11,7 @@ export default (passport) => {
   (payload, done) => {
     User.findById(payload.id, (err: NativeError, user: IUser) => {
       if (err) {
-        return done(err, false);
+        return done({ error: err }, false);
       }
 
       if (user) {
