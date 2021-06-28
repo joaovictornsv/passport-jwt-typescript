@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { router } from './routes';
-import connectToDatabase from './database';
+import { router } from '~/routes';
+import connectToDatabase from '~/database';
 
 const app = express();
 

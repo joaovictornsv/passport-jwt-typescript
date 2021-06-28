@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../entities/User';
+import User from '~/entities/User';
 import 'dotenv/config';
 
 class UserController {

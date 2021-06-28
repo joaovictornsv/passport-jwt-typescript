@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+interface IUser {
+  _id: string;
+  name: string;
+  username: string;
+  password: string;
+  pets: string[];
+}
+
 const UserSchema = new mongoose.Schema({
   name: { type: String },
   username: { type: String },
@@ -7,4 +15,4 @@ const UserSchema = new mongoose.Schema({
   pets: [{ type: mongoose.Types.ObjectId, ref: 'Pet' }],
 });
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model<IUser>('User', UserSchema);
