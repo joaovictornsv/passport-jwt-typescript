@@ -1,7 +1,8 @@
 {
   "env": {
     "es2021": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "extends": [
     "airbnb-base"
@@ -18,6 +19,7 @@
     "camelcase":"off",
     "no-console":"off",
     "no-unused-vars": "warn",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
