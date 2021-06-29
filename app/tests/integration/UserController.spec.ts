@@ -1,13 +1,17 @@
 import sinon from 'sinon';
 import { expect, assert } from 'chai';
 import { afterEach } from 'mocha';
-import User from '../../src/entities/User';
+import User from '../../src/domain/entities/User/User';
+import { CreateUserUseCase } from '../../src/application/useCases/User/CreateUserUseCase';
 import { userReturnedMock } from '../mocks/userMock';
 import { responseMock } from '../mocks/responseMock';
 import { requestMock } from '../mocks/requestMock';
-import { IIndexUserRequest, UserController } from '../../src/controllers/UserController';
+import { IIndexUserRequest, UserController } from '../../src/application/controllers/UserController';
 
-const userController = new UserController();
+const createUserUseCaseMock = sinon.createStubInstance(CreateUserUseCase);
+createUserUseCaseMock.create.resolves(userReturnedMock);
+
+const userController = new UserController(createUserUseCaseMock);
 
 describe('User Controller create', () => {
   let sandbox: sinon.SinonSandbox;
@@ -25,7 +29,6 @@ describe('User Controller create', () => {
     const statusSpy = sandbox.spy(responseMock, 'status');
 
     UserMock.expects('findOne').returns(null);
-    UserMock.expects('create').returns(userReturnedMock);
 
     requestMock.body = {
       name: 'Mock name',

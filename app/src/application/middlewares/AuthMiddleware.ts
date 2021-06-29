@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import User from '~/entities/User';
-import { SECRET_KEY } from '~/constants/env';
+import User from '~/domain/entities/User/User';
+import { SECRET_KEY } from '~/infra/constants/env';
 
 // Custom JWT authentication middleware
 async function verifyJWT(req: Request, res: Response, next: NextFunction) {

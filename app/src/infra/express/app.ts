@@ -1,9 +1,9 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
-import { router } from '~/routes';
-import connectToDatabase from '~/database';
-import passportStrategy from '~/config/passport';
+import { router } from './routes';
+import connectToDatabase from '~/infra/database';
+import passportStrategy from '~/infra/config/passport';
 
 const app = express();
 

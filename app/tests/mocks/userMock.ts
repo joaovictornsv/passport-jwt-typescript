@@ -3,5 +3,4 @@ export const userReturnedMock = {
   name: 'name-mock',
   username: 'username-mock',
   password: 'password-mock',
-  pets: [],
 };

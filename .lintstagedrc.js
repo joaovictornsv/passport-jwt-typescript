@@ -1,3 +1,3 @@
 module.exports = {
-  '*.ts': 'yarn test --findRelatedTests'
+  '*.ts': 'yarn test --exit --findRelatedTests'
 }

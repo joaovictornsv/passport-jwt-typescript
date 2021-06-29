@@ -1,16 +1,25 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-empty-function */
+/* eslint-disable no-useless-constructor */
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User, { IUser } from '~/entities/User';
+import User from '~/domain/entities/User/User';
 import 'dotenv/config';
-import { SECRET_KEY } from '~/constants/env';
+import { SECRET_KEY } from '~/infra/constants/env';
+import { IUser } from '~/domain/entities/User/IUser';
+import { ICreateUserUseCase } from '~/domain/useCases/User/ICreateUserUseCase';
 
 export interface IIndexUserRequest extends Request{
   user?: IUser;
 }
 
 class UserController {
-  async create(req: Request, res: Response): Promise<Response> {
+  constructor(
+    private readonly createUserUseCase: ICreateUserUseCase,
+  ) {}
+
+  create = async (req: Request, res: Response): Promise<Response> => {
     const userData = req.body;
 
     if (!userData.name || !userData.username || !userData.password) {
@@ -27,11 +36,7 @@ class UserController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const { id } = await User.create({
-      name: userData.name,
-      username: userData.username,
-      password: userData.password,
-    });
+    const { id } = await this.createUserUseCase.create(userData);
 
     const token = jwt.sign({ id }, SECRET_KEY, { expiresIn: '1d' });
 
