@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { expect, assert } from 'chai';
 import { afterEach } from 'mocha';
 import User from '../../src/domain/entities/User/User';
-import { CreateUserUseCase } from '../../src/application/use-cases/User/CreateUserUseCase';
+import { CreateUserUseCase } from '../../src/application/useCases/User/CreateUserUseCase';
 import { userReturnedMock } from '../mocks/userMock';
 import { responseMock } from '../mocks/responseMock';
 import { requestMock } from '../mocks/requestMock';

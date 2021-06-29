@@ -8,7 +8,7 @@ import User from '~/domain/entities/User/User';
 import 'dotenv/config';
 import { SECRET_KEY } from '~/infra/constants/env';
 import { IUser } from '~/domain/entities/User/IUser';
-import { ICreateUserUseCase } from '~/domain/use-cases/User/ICreateUserUseCase';
+import { ICreateUserUseCase } from '~/domain/useCases/User/ICreateUserUseCase';
 
 export interface IIndexUserRequest extends Request{
   user?: IUser;

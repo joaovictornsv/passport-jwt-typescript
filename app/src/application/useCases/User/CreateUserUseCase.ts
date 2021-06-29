@@ -4,7 +4,7 @@
 import { IUserRepository } from '~/application/repositories/IUserRepository';
 import { IUser } from '~/domain/entities/User/IUser';
 import { IUserCreateData } from '~/domain/entities/User/IUserCreateData';
-import { ICreateUserUseCase } from '~/domain/use-cases/User/ICreateUserUseCase';
+import { ICreateUserUseCase } from '~/domain/useCases/User/ICreateUserUseCase';
 
 class CreateUserUseCase implements ICreateUserUseCase {
   constructor(
