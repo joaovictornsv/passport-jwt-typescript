@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
-import { DATABASE_URL } from '~/constants/env';
+import { DATABASE_URL } from '~/infra/constants/env';
 
 function connectToDatabase() {
   mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });

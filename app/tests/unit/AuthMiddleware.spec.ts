@@ -4,9 +4,9 @@ import { expect, assert } from 'chai';
 import { requestMock } from '../mocks/requestMock';
 import { responseMock } from '../mocks/responseMock';
 import * as next from '../mocks/nextFunctionMock';
-import User from '../../src/entities/User';
+import User from '../../src/domain/entities/User/User';
 import { userReturnedMock } from '../mocks/userMock';
-import { verifyJWT, generateJWT } from '../../src/middlewares/AuthMiddleware';
+import { verifyJWT, generateJWT } from '../../src/application/middlewares/AuthMiddleware';
 
 async function generateJWTSuccessfully(sandbox: sinon.SinonSandbox) {
   const userMock = sandbox.mock(User);
