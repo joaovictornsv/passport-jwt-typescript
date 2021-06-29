@@ -1,6 +1,6 @@
 {
   "all": true,
   "check-coverage": true,
-  "include": ["app/src/controllers", "app/src/middlewares"],
+  "include": ["app/src/application/controllers", "app/src/application/middlewares"],
   "reporter": ["text", "lcov"]
 }
