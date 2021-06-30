@@ -1,6 +1,7 @@
 {
   "all": true,
   "check-coverage": true,
-  "include": ["app/src/application/controllers", "app/src/application/middlewares"],
+  "include": ["app/src/application/controllers", "app/src/application/middlewares", "app/src/application/useCases", "app/src/infra/repositories"],
+  "exclude": ["app/tests"],
   "reporter": ["text", "lcov"]
 }
