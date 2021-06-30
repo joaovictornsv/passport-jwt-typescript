@@ -1,6 +1,7 @@
 import { IUserRepository } from '~/application/repositories/IUserRepository';
 import { IUser } from '~/domain/entities/User/IUser';
 import { IUserCreateData } from '~/domain/entities/User/IUserCreateData';
+import { IUserFindOneData } from '~/domain/entities/User/IUserFindOneData';
 import User from '~/domain/entities/User/User';
 
 class UserRepository implements IUserRepository {
@@ -14,7 +15,7 @@ class UserRepository implements IUserRepository {
     return user;
   }
 
-  async findOne(data: IUser): Promise<IUser | null> {
+  async findOne(data: IUserFindOneData): Promise<IUser | null> {
     const user = await User.findOne(data);
     return user;
   }
