@@ -1,6 +1,7 @@
 <div align="center">
 
 <h1>
+  Clean Architecture TS App<br/><br/>
   <img src="https://miro.medium.com/max/400/1*YI1tt4kGzvea-v4dAhZ90w.png" height=70 /> +
   <img src="https://vegibit.com/wp-content/uploads/2018/07/JSON-Web-Token-Authentication-With-Node.png" height=70 /> + &nbsp;
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" height="70" /> 
