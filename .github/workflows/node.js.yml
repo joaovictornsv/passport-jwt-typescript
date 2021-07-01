@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  teste:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -36,5 +36,5 @@ jobs:
           SECRET_KEY: ci-test
 
     - name: Build app
-      run: npm build
+      run: npm run build
     
