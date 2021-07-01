@@ -5,6 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn app/src/infra/express/server.ts",
+    "build": "rm -rf dist; babel app/src --extensions \".ts,.js\" --out-dir dist --copy-files --no-copy-ignored",
+    "start": "node -r 'dotenv/config' dist/infra/express/server.js",
     "refresh": "rm -rf node_modules && yarn install",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register app/tests/**/*.spec.ts",
     "test:coverage": "nyc yarn test"
@@ -20,6 +22,10 @@
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
     "@types/bcrypt": "^5.0.0",
     "@types/chai": "^4.2.19",
     "@types/cookie-parser": "^1.4.2",
@@ -30,6 +36,7 @@
     "@types/sinon": "^10.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "chai": "^4.3.4",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
