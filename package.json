@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn app/src/infra/express/server.ts",
     "build": "rm -rf dist; babel app/src --extensions \".ts,.js\" --out-dir dist --copy-files --no-copy-ignored",
+    "lint": "eslint app/src/**/*.ts --fix",
     "start": "node -r 'dotenv/config' dist/infra/express/server.js",
     "refresh": "rm -rf node_modules && yarn install",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register app/tests/**/*.spec.ts",
@@ -38,6 +39,7 @@
     "@typescript-eslint/parser": "^4.28.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "chai": "^4.3.4",
+    "coveralls": "^3.1.1",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-import-resolver-typescript": "^2.4.0",
