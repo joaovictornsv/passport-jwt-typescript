@@ -29,8 +29,12 @@ jobs:
         
     - name: Install dependencies
       run: npm install
-    
+
     - name: Test
       run: npm test
       env:
           SECRET_KEY: ci-test
+
+    - name: Build app
+      run: npm build
+    
