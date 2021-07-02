@@ -46,23 +46,13 @@ jobs:
     - name: Build app
       run: yarn build
   
-  lint:
-    runs-on: ubuntu-latest
-
-    needs: build
-    steps:
     - name: Lint
       run: yarn lint
-  
-  test:
-    runs-on: ubuntu-latest
-
-    needs: lint
-    steps:
+      
     - name: Test
       run: yarn test:coverage
       env:
-        SECRET_KEY: ci-test
+          SECRET_KEY: ci-test
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
