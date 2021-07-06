@@ -3,6 +3,7 @@ import passport from 'passport';
 import { UserController } from '~/application/controllers/UserController';
 import { generateJWT } from '~/application/middlewares/AuthMiddleware';
 import { CreateUserUseCase } from '~/application/useCases/User/CreateUserUseCase';
+import { CreateUserValidator } from '~/application/validators/CreateUserValidator';
 import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();
@@ -20,6 +21,6 @@ router.get('/',
 
 router.post('/login', generateJWT);
 
-router.post('/register', userController.create);
+router.post('/register', CreateUserValidator, userController.create);
 
 export { router as userRouter };
