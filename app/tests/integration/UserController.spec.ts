@@ -7,6 +7,8 @@ import { userReturnedMock } from '../mocks/userMock';
 import { responseMock } from '../mocks/responseMock';
 import { requestMock } from '../mocks/requestMock';
 import { IIndexUserRequest, UserController } from '../../src/application/controllers/UserController';
+import { IUserCreateData } from '../../src/domain/entities/User/IUserCreateData';
+import factory from '../utils/factory';
 
 const createUserUseCaseMock = sinon.createStubInstance(CreateUserUseCase);
 createUserUseCaseMock.create.resolves(userReturnedMock);
@@ -31,11 +33,7 @@ describe('User Controller', () => {
 
       UserMock.expects('findOne').returns(null);
 
-      requestMock.body = {
-        name: 'Mock name',
-        username: 'Mock username',
-        password: 'Mock password',
-      };
+      requestMock.body = await factory.attrs<IUserCreateData>('User');
 
       const response = await userController.create(requestMock, responseMock);
 
