@@ -4,11 +4,8 @@ import { CreateUserValidator } from '../../src/application/validators/CreateUser
 import { requestMock } from '../mocks/requestMock';
 import { responseMock } from '../mocks/responseMock';
 import * as next from '../mocks/nextFunctionMock';
-
-const responseJoiError = {
-  status: 'Validation error',
-  details: [],
-};
+import factory from '../utils/factory';
+import { IUser } from '../../src/domain/entities/User/IUser';
 
 describe('CreateUserValidator', () => {
   let sandbox: sinon.SinonSandbox;
@@ -16,8 +13,6 @@ describe('CreateUserValidator', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    requestMock.body = {};
-    responseJoiError.details = [];
     nextFunctionSpy = sandbox.spy(next, 'nextFunctionMock');
   });
 
@@ -25,12 +20,9 @@ describe('CreateUserValidator', () => {
     sandbox.restore();
   });
 
-  it('should be validate a user and call next function', () => {
-    requestMock.body = {
-      name: 'Mock user',
-      username: 'mock_username',
-      password: 'mockPassword',
-    };
+  it('should be validate a user and call next function', async () => {
+    const user = await factory.attrs<IUser>('User');
+    requestMock.body = user;
 
     CreateUserValidator(requestMock, responseMock, next.nextFunctionMock);
 
@@ -39,15 +31,12 @@ describe('CreateUserValidator', () => {
 
   it('should be throw a error: fields required', () => {
     const statusSpy = sandbox.spy(responseMock, 'status');
-
-    responseJoiError.details = [
-      '"name" is a required field',
-    ];
+    requestMock.body = {};
 
     const response = CreateUserValidator(requestMock, responseMock, next.nextFunctionMock);
 
     assert.equal(nextFunctionSpy.calledOnce, false);
     assert.equal(statusSpy.calledOnceWith(400), true);
-    expect(response).to.eql(responseJoiError);
+    expect(response).property('details').to.eql(['"name" is a required field']);
   });
 });
