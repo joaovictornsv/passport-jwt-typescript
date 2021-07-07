@@ -2,10 +2,12 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { UserRepository } from '../../src/infra/repositories/UserRepository';
 import { CreateUserUseCase } from '../../src/application/useCases/User/CreateUserUseCase';
-import { userReturnedMock } from '../mocks/userMock';
+import { IUserCreateData } from '../../src/domain/entities/User/IUserCreateData';
+import { generateObjectId } from '../utils/generateObjectId';
+import factory from '../utils/factory';
 
 const userRepositoryMock = sinon.createStubInstance(UserRepository);
-userRepositoryMock.create.resolves(userReturnedMock);
+userRepositoryMock.create.callsFake((u: IUserCreateData):any => ({ ...u, id: generateObjectId() }));
 const createUserUseCase = new CreateUserUseCase(userRepositoryMock);
 
 describe('CreateUserUseCase', () => {
@@ -19,13 +21,10 @@ describe('CreateUserUseCase', () => {
     sandbox.restore();
   });
   it('should be create user succesfully', async () => {
-    const user = await createUserUseCase.create({
-      name: userReturnedMock.name,
-      username: userReturnedMock.username,
-      password: userReturnedMock.password,
-    });
+    const userData = await factory.attrs<IUserCreateData>('User');
+    const user = await createUserUseCase.create(userData);
 
     expect(user).to.have.property('id');
-    expect(user).to.deep.equal(userReturnedMock);
+    expect(user).property('username').to.equal(userData.username);
   });
 });

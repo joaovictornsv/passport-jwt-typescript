@@ -1,15 +1,11 @@
-import mongoose from 'mongoose';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { UserRepository } from '../../src/infra/repositories/UserRepository';
 import { userReturnedMock } from '../mocks/userMock';
 import User from '../../src/domain/entities/User/User';
 import factory from '../utils/factory';
-import { IUser } from '../../src/domain/entities/User/IUser';
-
-function genId() {
-  return mongoose.Types.ObjectId();
-}
+import { IUserCreateData } from '../../src/domain/entities/User/IUserCreateData';
+import { generateObjectId } from '../utils/generateObjectId';
 
 describe('UserRepository', () => {
   let sandbox: sinon.SinonSandbox;
@@ -18,7 +14,7 @@ describe('UserRepository', () => {
 
   before(() => {
     userMock = sinon.mock(User);
-    userMock.expects('create').callsFake((u: IUser) => ({ ...u, id: genId() }));
+    userMock.expects('create').callsFake((u: IUserCreateData) => ({ ...u, id: generateObjectId() }));
     userMock.expects('findById').returns(userReturnedMock);
     userMock.expects('findOne').returns(userReturnedMock);
   });
@@ -35,7 +31,7 @@ describe('UserRepository', () => {
   });
 
   it('should create user', async () => {
-    const userData = await factory.attrs<IUser>('User');
+    const userData = await factory.attrs<IUserCreateData>('User');
     const user = await userRepository.create(userData);
 
     expect(user).to.have.property('id');
