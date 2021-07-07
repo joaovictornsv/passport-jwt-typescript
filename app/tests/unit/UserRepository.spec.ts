@@ -1,8 +1,15 @@
+import mongoose from 'mongoose';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { UserRepository } from '../../src/infra/repositories/UserRepository';
 import { userReturnedMock } from '../mocks/userMock';
 import User from '../../src/domain/entities/User/User';
+import factory from '../utils/factory';
+import { IUser } from '../../src/domain/entities/User/IUser';
+
+function genId() {
+  return mongoose.Types.ObjectId();
+}
 
 describe('UserRepository', () => {
   let sandbox: sinon.SinonSandbox;
@@ -11,7 +18,7 @@ describe('UserRepository', () => {
 
   before(() => {
     userMock = sinon.mock(User);
-    userMock.expects('create').returns(userReturnedMock);
+    userMock.expects('create').callsFake((u: IUser) => ({ ...u, id: genId() }));
     userMock.expects('findById').returns(userReturnedMock);
     userMock.expects('findOne').returns(userReturnedMock);
   });
@@ -28,21 +35,18 @@ describe('UserRepository', () => {
   });
 
   it('should create user', async () => {
-    const user = await userRepository.create({
-      name: userReturnedMock.name,
-      username: userReturnedMock.username,
-      password: userReturnedMock.password,
-    });
+    const userData = await factory.attrs<IUser>('User');
+    const user = await userRepository.create(userData);
 
     expect(user).to.have.property('id');
-    expect(user).to.deep.equal(userReturnedMock);
+    expect(user).property('username').to.equal(userData.username);
   });
 
   it('should get user by Id', async () => {
     const user = await userRepository.findById(userReturnedMock.id);
 
     expect(user).to.have.property('id');
-    expect(user).to.deep.equal(userReturnedMock);
+    expect(user).property('id').to.equal(userReturnedMock.id);
   });
 
   it('should get user by any field', async () => {
@@ -51,6 +55,5 @@ describe('UserRepository', () => {
     });
 
     expect(user).to.have.property('id');
-    expect(user).to.deep.equal(userReturnedMock);
   });
 });
